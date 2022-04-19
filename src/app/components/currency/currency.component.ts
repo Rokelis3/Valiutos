@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Currency } from 'src/app/models/currency';
+import { CurrencyService } from 'src/app/services/currency.service';
 
 @Component({
   selector: 'app-currency',
@@ -18,7 +18,11 @@ export class CurrencyComponent implements OnInit {
     }
   }
 
-  constructor(private http:HttpClient) { }
+
+  public isLoading:boolean=true;
+  public isError:boolean=false;
+
+  constructor(private currencyService:CurrencyService) { }
 
 
 
@@ -27,14 +31,17 @@ export class CurrencyComponent implements OnInit {
   }
 
   private loadCurrency(){
-    this.http.get<Currency>("https://api.frankfurter.app/latest?from=EUR&to=USD").subscribe(
-      (response) =>{
+    this.currencyService.loadCurrency().subscribe({
+      next:(response)=>{
         this.currency=response;
+        this.isLoading=false;
+      },
+      error:(error)=>{
+        this.isLoading=false;
+        this.isError=true;
       }
-    )
+    })
   }
-
-
 }
 
 

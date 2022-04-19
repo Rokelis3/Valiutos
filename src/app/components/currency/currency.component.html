@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" *ngIf="!isLoading && !isError">
     <div class="card-body">
         Valiutos keitimas
          <hr>
@@ -10,3 +10,13 @@
          </div>
     </div>
 </div>
+<div class="card" *ngIf="isLoading">
+    <div class="card-body">
+       <div class="alert alert-info">Loading...</div>
+    </div>
+ </div>
+ <div class="card" *ngIf="isError">
+    <div class="card-body">
+       <div class="alert alert-danger">Įvyko klaida...Bandykite vėliau.</div>
+    </div>
+ </div>
